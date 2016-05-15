@@ -8,20 +8,20 @@
 
 import MachO
 
-struct Timer {
+public struct Timer {
   private var startTime: UInt64 = 0
   private var endTime: UInt64 = 0
   private var clockTimebase = mach_timebase_info(numer: 0, denom: 0)
   
-  init() {
+  public init() {
     mach_timebase_info(&clockTimebase)
   }
   
-  mutating func start() {
+  public mutating func start() {
     startTime = mach_absolute_time()
   }
   
-  mutating func stop() {
+  public mutating func stop() {
     guard startTime > 0 else {
       // Can not stop the timer, it was never started
       return
@@ -33,11 +33,11 @@ struct Timer {
     return Double((endTime - startTime) * UInt64(clockTimebase.numer)) / Double(clockTimebase.denom)
   }
   
-  func resultInSeconds() -> Double {
+  public func resultInSeconds() -> Double {
     return elapsedMach() / 1_000_000_000
   }
   
-  func resultInMilis() -> Double {
+  public func resultInMilis() -> Double {
     return elapsedMach() / 1_000_000
   }
 }
